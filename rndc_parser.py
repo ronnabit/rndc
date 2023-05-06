@@ -19,9 +19,16 @@ class RNDCXmlParser:
         self._root.find('./solicitud/tipo').text = str(type_id)
         self._root.find('./solicitud/procesoid').text = str(process_id)
 
-    def set_variables(self, variables: list):
-        """ set the variables that return the rndc system """
-        self._root.find('./variables').text = ','.join(variables)
+    def set_variables(self, variables):
+        """ set the variables to rndc """
+        if isinstance(variables, list):
+            self._root.find('./variables').text = ','.join(variables)
+        else:
+            variable = self._root.find('./variables')
+            for key, value in variables.items():
+                element = ET.Element(key)
+                element.text = str(value)
+                variable.append(element)
 
     def set_document(self, document: dict):
         """ add tag to find an specific document, only use when search data """
