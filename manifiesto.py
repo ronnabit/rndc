@@ -15,9 +15,16 @@ class SearchManifestClient(RndcClient):
         """ search manifest given the data """
         self._data.update(data)
         self._payload.set_document(self._data)
-        return self.execute()
+        searched, is_valid = self.execute()
+        response = searched['documento'] if is_valid else searched
+        return response, is_valid
 
     def search_manifest(self, manifest_id):
         """ search a manifest given the id"""
         data= { 'NUMMANIFIESTOCARGA': manifest_id }
+        return self._search(data)
+
+    def search_active(self):
+        """ search all manifest active """
+        data= { 'ESTADO': "'AC'" }
         return self._search(data)

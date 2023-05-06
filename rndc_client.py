@@ -18,9 +18,9 @@ class RndcClient:
         """ execute a petition to rndc """
         body = self.raw_body.format(payload=self._payload.get())
         response = requests.request("POST", self.url, headers=self.headers, data=body, timeout=10)
-        return self.validate(response)
+        return self._validate(response)
 
-    def validate(self, response):
+    def _validate(self, response):
         """ validate if not errors ocurred """
         data = self._payload.parse_response(response.text)
         response = data['root']
