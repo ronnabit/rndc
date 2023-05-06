@@ -24,5 +24,5 @@ class RndcClient:
         """ validate if not errors ocurred """
         data = self._payload.parse_response(response.text)
         response = data['root']
-        is_valid = False if 'ErrorMSG' in response else True
+        is_valid = not 'ErrorMSG' in response
         return response, is_valid
