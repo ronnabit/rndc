@@ -1,3 +1,4 @@
+from typing import Tuple
 from rndc_client import RndcClient
 
 
@@ -19,12 +20,12 @@ class SearchManifestClient(RndcClient):
         response = searched['documento'] if is_valid else searched
         return response, is_valid
 
-    def search_manifest(self, manifest_id):
+    def search_manifest(self, manifest_id) -> Tuple[dict, bool]:
         """ search a manifest given the id"""
         data= { 'NUMMANIFIESTOCARGA': manifest_id }
         return self._search(data)
 
-    def search_active(self):
+    def search_active(self) -> Tuple[list, bool]:
         """ search all manifest active """
         data= { 'ESTADO': "'AC'" }
         return self._search(data)
