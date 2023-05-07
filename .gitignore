@@ -159,3 +159,5 @@ bastion.pem
 .vscode
 
 myenv.env
+
+*.csv
