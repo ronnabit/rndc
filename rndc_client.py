@@ -1,5 +1,6 @@
 import requests
 from rndc_parser import RNDCXmlParser
+from typing import Tuple
 
 
 class RndcClient:
@@ -14,7 +15,7 @@ class RndcClient:
     def __init__(self):
         self._payload = RNDCXmlParser()
 
-    def execute(self):
+    def execute(self) -> Tuple[dict, bool]:
         """ execute a petition to rndc """
         body = self.raw_body.format(payload=self._payload.get())
         response = requests.request("POST", self.url, headers=self.headers, data=body, timeout=10)

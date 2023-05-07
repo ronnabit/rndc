@@ -29,3 +29,40 @@ class SearchManifestClient(RndcClient):
         """ search all manifest active """
         data= { 'ESTADO': "'AC'" }
         return self._search(data)
+
+class FulfillManifestClient(RndcClient):
+    """ Client to Fulfill Manifest """
+    def __init__(self, client: dict):
+        super().__init__()
+        self._payload.set_access(client.get('username'), client.get('password'))
+        self._payload.set_process(1, 6)
+        self._data = {
+            'numnitempresatransporte': client.get('nit'),
+            'tipocumplidomanifiesto': 'C',
+            'observaciones': 'cumplido automaticamente'
+        }
+
+    def create(self):
+        """ create a fulfillment document """
+        self._payload.set_variables(self._data)
+        created, is_valid = self.execute()
+        response = created['documento'] if is_valid else created
+        return response, is_valid
+
+    def set_params(self, params: dict):
+        """ set sent data to rndc """
+        data = {
+            'nummanifiestocarga': params.get('nummanifiestocarga'),
+            'fechaentregadocumentos': params.get('fecha')
+        }
+        self._data.update(data)
+
+    def set_suspension_params(self):
+        """ set suspension data to rndc """
+        data = {
+            'tipocumplidomanifiesto': 'S',
+            'observaciones': 'suspendido automaticamente',
+            'motivosuspensionmanifiesto': 'A',
+            'consecuenciasuspension': 'F'
+        }
+        self._data.update(data)
