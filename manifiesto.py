@@ -42,7 +42,7 @@ class FulfillManifestClient(RndcClient):
             'observaciones': 'cumplido automaticamente'
         }
 
-    def create(self):
+    def create(self) -> Tuple[dict, bool]:
         """ create a fulfillment document """
         self._payload.set_variables(self._data)
         created, is_valid = self.execute()
