@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import xmltodict
 
+
 class RNDCXmlParser:
     """ this class allows make the body for rndc petitions and convert the response """
     xml_base = "<root><acceso><username /><password /></acceso><solicitud><tipo /><procesoid /></solicitud><variables /></root>"
@@ -26,6 +27,10 @@ class RNDCXmlParser:
         else:
             variable = self._root.find('./variables')
             for key, value in variables.items():
+                it_exist = variable.find(f'./{key}')
+                if it_exist is not None:
+                    it_exist.text = str(value)
+                    continue
                 element = ET.Element(key)
                 element.text = str(value)
                 variable.append(element)
