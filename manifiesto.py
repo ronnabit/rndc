@@ -66,3 +66,29 @@ class FulfillManifestClient(RndcClient):
             'consecuenciasuspension': 'F'
         }
         self._data.update(data)
+
+class CancelManifestClient(RndcClient):
+    """ Client to cancel manifest """
+    def __init__(self, client: dict):
+        super().__init__()
+        self._payload.set_access(client.get('username'), client.get('password'))
+        self._payload.set_process(1, 32)
+        self._data = {
+            'numnitempresatransporte': client.get('nit'),
+            'motivoanulacionmanifiesto': 'S',
+            'observaciones': 'anulado automaticamente'
+        }
+
+    def set_params(self, params: dict):
+        """ set sent data to rndc """
+        data = {
+            'nummanifiestocarga': params.get('nummanifiestocarga')
+        }
+        self._data.update(data)
+
+    def create(self) -> Tuple[dict, bool]:
+        """ create a cancel document """
+        self._payload.set_variables(self._data)
+        created, is_valid = self.execute()
+        response = created['documento'] if is_valid else created
+        return response, is_valid
