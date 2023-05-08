@@ -15,6 +15,8 @@ if not is_valid:
     print('no hay manifiestos por cumplir')
     sys.exit()
 
+if isinstance(response, dict):
+    response = [response]
 man = len(response)
 print(f'hay {man} manifiestos sin cumplir')
 manifests = []
@@ -22,7 +24,7 @@ for i, manifest in enumerate(response):
     man_id = manifest.get('nummanifiestocarga')
     print(f'manifiesto {i+1}/{man} - {man_id}')
     to_fulfill = FulfillManifestClient(client)
-    manifest.update({ 'fecha': manifest.get('fechaing') })
+    manifest.update({ 'fecha': manifest.get('fechaing')[:10] })
     to_fulfill.set_params(manifest)
     response, is_valid = to_fulfill.create()
     if is_valid:

@@ -45,9 +45,7 @@ class FulfillManifestClient(RndcClient):
     def create(self) -> Tuple[dict, bool]:
         """ create a fulfillment document """
         self._payload.set_variables(self._data)
-        created, is_valid = self.execute()
-        response = created['documento'] if is_valid else created
-        return response, is_valid
+        return self.execute()
 
     def set_params(self, params: dict):
         """ set sent data to rndc """
@@ -89,6 +87,4 @@ class CancelManifestClient(RndcClient):
     def create(self) -> Tuple[dict, bool]:
         """ create a cancel document """
         self._payload.set_variables(self._data)
-        created, is_valid = self.execute()
-        response = created['documento'] if is_valid else created
-        return response, is_valid
+        return self.execute()
