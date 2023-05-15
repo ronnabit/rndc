@@ -1,6 +1,6 @@
+from typing import Tuple
 import requests
 from rndc_parser import RNDCXmlParser
-from typing import Tuple
 
 
 class RndcClient:

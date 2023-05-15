@@ -20,7 +20,7 @@ class RNDCXmlParser:
         self._root.find('./solicitud/tipo').text = str(type_id)
         self._root.find('./solicitud/procesoid').text = str(process_id)
 
-    def set_variables(self, variables):
+    def set_variables(self, variables: list | dict):
         """ set the variables to rndc """
         if isinstance(variables, list):
             self._root.find('./variables').text = ','.join(variables)
